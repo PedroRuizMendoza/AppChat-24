@@ -58,6 +58,7 @@ public class VentanaMain extends JFrame {
 				}
 			}
 		});
+		//prueba3
 	} 
 
 	/**
