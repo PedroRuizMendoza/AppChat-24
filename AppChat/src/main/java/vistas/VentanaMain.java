@@ -59,6 +59,7 @@ public class VentanaMain extends JFrame {
 			}
 		});
 	}
+	//hola a todos
 
 	/**
 	 * Create the frame.
