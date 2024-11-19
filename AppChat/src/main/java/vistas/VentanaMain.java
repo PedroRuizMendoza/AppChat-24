@@ -58,7 +58,12 @@ public class VentanaMain extends JFrame {
 				}
 			}
 		});
+<<<<<<< HEAD
 	} 
+=======
+	}
+	//hola a todos messi
+>>>>>>> branch 'main' of https://github.com/PedroRuizMendoza/AppChat-24.git
 
 	/**
 	 * Create the frame.
