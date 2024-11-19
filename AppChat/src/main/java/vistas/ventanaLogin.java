@@ -8,8 +8,6 @@ import javax.swing.JOptionPane;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
-import javax.swing.SwingConstants;
-
 import controlador.AppChat;
 
 import javax.swing.JPanel;
@@ -54,8 +52,8 @@ public class ventanaLogin {
 					ventanaLogin window = new ventanaLogin();
 					window.frmAppchat.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
-				}
+					e.printStackTrace(); 
+				} 
 			}
 		});
 	}
