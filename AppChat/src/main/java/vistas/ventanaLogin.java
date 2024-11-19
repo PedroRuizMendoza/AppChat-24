@@ -56,7 +56,6 @@ public class ventanaLogin {
 				} 
 			}
 		});
-		//hola a todos
 	}
 
 	/**
