@@ -9,6 +9,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import modelo.Contacto;
+import modelo.ContactoIndividual;
 import modelo.Mensaje;
 import modelo.Usuario;
 
@@ -58,8 +59,7 @@ public class VentanaMain extends JFrame {
 				}
 			}
 		});
-		//prueba3
-	} 
+		} 
 
 	/**
 	 * Create the frame.
@@ -144,9 +144,9 @@ public class VentanaMain extends JFrame {
         List<Mensaje> mensajesPrueba = new ArrayList<>();
         
         
-        mensajesPrueba.add(new Mensaje(new Usuario("Emisor1"), new Contacto("Receptor"), "Hola,¿Que tal?"));
-        mensajesPrueba.add(new Mensaje(new Usuario("Emisor2"), new Contacto("Receptor"), "Nos vemos mañana!!"));
-        mensajesPrueba.add(new Mensaje(new Usuario("Emisor3"), new Contacto("Receptor"), "Terminaste el proyecto???"));
+        mensajesPrueba.add(new Mensaje(new Usuario("Emisor1"), new ContactoIndividual("Receptor"), "Hola,¿Que tal?"));
+        mensajesPrueba.add(new Mensaje(new Usuario("Emisor2"), new ContactoIndividual("Receptor"), "Nos vemos mañana!!"));
+        mensajesPrueba.add(new Mensaje(new Usuario("Emisor3"), new ContactoIndividual("Receptor"), "Terminaste el proyecto???"));
         
 
         
