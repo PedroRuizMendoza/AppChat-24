@@ -6,13 +6,12 @@ import java.util.Optional;
 
 
 public abstract class Contacto {
+	private int codigo;
     private String nombre;
-    private String telefono;
 	private List<Mensaje> mensajes;
 
-    public Contacto(String nombre, String telefono, List<Mensaje> mensajes) {
+    public Contacto(String nombre,List<Mensaje> mensajes) {
         this.nombre = nombre;
-        this.telefono = telefono;
         this.mensajes = mensajes;
     }
     public Contacto(String nombre) {
@@ -24,9 +23,9 @@ public abstract class Contacto {
         return nombre;
     }
 
-    public String getTelefono() {
-        return telefono;
-    }
+	public int getCodigo() {
+		return codigo;
+	}
     
 	public abstract List<Mensaje> getMensajesRecibidos(Optional<Usuario> usuario);
      
@@ -34,9 +33,10 @@ public abstract class Contacto {
 		return mensajes;
 	}
 
-    @Override
-    public String toString() {
-        return nombre != null ? nombre : telefono;
-    }
+		
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+	
     
 }

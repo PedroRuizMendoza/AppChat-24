@@ -35,6 +35,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.awt.event.ActionEvent;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.DefaultComboBoxModel;
@@ -144,9 +146,9 @@ public class VentanaMain extends JFrame {
         List<Mensaje> mensajesPrueba = new ArrayList<>();
         
         
-        mensajesPrueba.add(new Mensaje(new Usuario("Emisor1"), new ContactoIndividual("Receptor"), "Hola,¿Que tal?"));
-        mensajesPrueba.add(new Mensaje(new Usuario("Emisor2"), new ContactoIndividual("Receptor"), "Nos vemos mañana!!"));
-        mensajesPrueba.add(new Mensaje(new Usuario("Emisor3"), new ContactoIndividual("Receptor"), "Terminaste el proyecto???"));
+        mensajesPrueba.add(new Mensaje("Hola,¿Que tal?", LocalDateTime.now(),new Usuario("Emisor1"), new ContactoIndividual("Receptor")));
+        mensajesPrueba.add(new Mensaje("Que hacees hoy?", LocalDateTime.now(),new Usuario("Emisor1"), new ContactoIndividual("Receptor2")));
+        mensajesPrueba.add(new Mensaje("terminaste el proyecto?", LocalDateTime.now(),new Usuario("Emisor1"), new ContactoIndividual("Receptor3")));
         
 
         

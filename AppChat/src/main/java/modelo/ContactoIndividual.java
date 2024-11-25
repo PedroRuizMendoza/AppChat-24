@@ -20,7 +20,7 @@ public class ContactoIndividual extends Contacto {
 	}
 
 	public ContactoIndividual(String nombre, LinkedList<Mensaje> mensajes, String movil, Usuario usuario) {
-		super(nombre,movil, mensajes);
+		super(nombre, mensajes);
 		this.movil = movil;
 		this.usuario = usuario;
 	}
