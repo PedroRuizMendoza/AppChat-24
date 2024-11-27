@@ -1,14 +1,42 @@
 package controlador;
 
 
+import modelo.CatalogoUsuario;
+import modelo.Contacto;
+import modelo.Usuario;
+import persistencia.AdaptadorContactoIndividual;
+import persistencia.AdaptadorGrupo;
+import persistencia.ContactoIndividualDAO;
+import persistencia.DAOException;
+import persistencia.FactoriaDAO;
+import persistencia.GrupoDao;
+import persistencia.MensajeDAO;
+import persistencia.UsuarioDAO;
+
+
 
 public class AppChat {
 	// Instancia del controlador.
-		private static AppChat unicaInstancia = null;
+	private static AppChat unicaInstancia = null;
+
+	// Adaptadores
+	private GrupoDao adaptadorGrupo;
+	private ContactoIndividualDAO adaptadorContactoIndividual;
+	private MensajeDAO adaptadorMensaje;
+	private UsuarioDAO adaptadorUsuario;
+	// Catálogos
+	private CatalogoUsuario catalogoUsuarios;
+
+	// Nuestro usuario.
+	private Usuario usuarioActual;
+
+	// Chat seleccionado
+	private Contacto chatActual;
+
 	
-		
+	
 		private AppChat() {
-			//inicializarAdaptadores(); // debe ser la primera linea para evitar error de sincronización
+			inicializarAdaptadores(); // debe ser la primera linea para evitar error de sincronización
 		}
 
 		
@@ -21,7 +49,7 @@ public class AppChat {
 			return unicaInstancia;
 		}
 		
-		/* Inicializamos los adaptadores
+		// Inicializamos los adaptadores
 		private void inicializarAdaptadores() {
 			FactoriaDAO factoria = null;
 			try {
@@ -29,10 +57,40 @@ public class AppChat {
 			} catch (DAOException e) {
 				e.printStackTrace();
 			}
-*/
+			
+			adaptadorGrupo = factoria.getGrupoDAO();
+			adaptadorContactoIndividual = factoria.getContactoIndividualDAO();
+			adaptadorMensaje = factoria.getMensajeDAO();
+			adaptadorUsuario = factoria.getUserDAO();
+		}
 	
-	public static boolean login(String telefono, String contraseña) {
 		
+		// Inicializamos los catálogos
+		private void inicializarCatalogos() {
+			catalogoUsuarios = CatalogoUsuario.getUnicaInstancia();
+		}
+		
+		
+
+		public boolean iniciarSesion(String nick, String password) {
+			if (nick.isEmpty() || password.isEmpty())
+				return false;
+
+			Usuario cliente = catalogoUsuarios.getUsuario(nick);
+			if (cliente == null)
+				return false;
+
+			// Si la password esta bien inicia sesion
+			if (cliente.getContraseña().equals(password)) {
+				usuarioActual = cliente;
+
+			}
+			return false;
+		}
+		
+		
+	public static boolean login(String telefono, String contraseña) {
+		 
 		return true;
 		
 	}

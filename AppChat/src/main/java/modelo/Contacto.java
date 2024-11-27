@@ -38,5 +38,8 @@ public abstract class Contacto {
 		this.codigo = codigo;
 	}
 	
-    
+	public void sendMessage(Mensaje message) {
+		mensajes.add(message);
+	}
+
 }

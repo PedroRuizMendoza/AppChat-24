@@ -17,6 +17,8 @@ import tds.driver.ServicioPersistencia;
 
 
 
+
+
 public class AdaptadorContactoIndividual implements ContactoIndividualDAO{
 
 	private static ServicioPersistencia servPersistencia;
@@ -69,7 +71,41 @@ public class AdaptadorContactoIndividual implements ContactoIndividualDAO{
 		// Guardamos en el pool
 		PoolDAO.getInstancia().addObjeto(contacto.getCodigo(), contacto);
 	}
+
 	
+	@Override
+	public ContactoIndividual recuperarContacto(int codigo) {
+		// Si la entidad esta en el pool la devuelve directamente
+		if (PoolDAO.getInstancia().contiene(codigo))
+			return (ContactoIndividual) PoolDAO.getInstancia().getObjeto(codigo);
+
+		// Sino, la recupera de la base de datos
+		// Recuperamos la entidad
+		Entidad eContact = servPersistencia.recuperarEntidad(codigo);
+
+		// recuperar propiedades que no son objetos
+		String nombre = servPersistencia.recuperarPropiedadEntidad(eContact, "nombre");
+		 
+		String movil = servPersistencia.recuperarPropiedadEntidad(eContact, "movil");
+		
+		ContactoIndividual contact = new ContactoIndividual(nombre, new LinkedList<Mensaje>(), Integer.valueOf(movil), null);
+		contact.setCodigo(codigo);
+
+		// Metemos al contacto en el pool antes de llamar a otros adaptadores
+		PoolDAO.getInstancia().addObjeto(codigo, contact);
+		
+		// Mensajes que el contacto tiene
+		List<Mensaje> mensajes = obtenerMensajesDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eContact, "mensajesRecibidos"));
+		for (Mensaje m : mensajes)
+			contact.sendMessage(m);
+
+		// Obtener usuario del contacto
+		contact.setUsuario(obtenerUsuarioDesdeCodigo(servPersistencia.recuperarPropiedadEntidad(eContact, "usuario")));
+
+		// Devolvemos el objeto contacto
+		return contact;
+	}
+
 	
 	//-------------------- Funciones auxiliares.---------------------------------
 	
@@ -90,6 +126,20 @@ public class AdaptadorContactoIndividual implements ContactoIndividualDAO{
 
 
 	
-
+		private List<Mensaje> obtenerMensajesDesdeCodigos(String codigos) {
+			List<Mensaje> mensajes = new LinkedList<>();
+			StringTokenizer strTok = new StringTokenizer(codigos, " ");
+			AdaptadorMensaje adaptadorMensajes = AdaptadorMensaje.getInstancia();
+			while (strTok.hasMoreTokens()) {
+				String code = (String) strTok.nextElement();
+				mensajes.add(adaptadorMensajes.recuperarMensaje(Integer.valueOf(code)));
+			}
+			return mensajes;
+		}
+		
+		private Usuario obtenerUsuarioDesdeCodigo(String codigo) {
+			AdaptadorUsuario adaptadorUsuarios = AdaptadorUsuario.getInstancia();
+			return adaptadorUsuarios.recuperarUsuario(Integer.valueOf(codigo));
+		}
 	 
 }

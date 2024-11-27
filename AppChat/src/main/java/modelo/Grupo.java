@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 
 
-
 public class Grupo extends Contacto {
 
 	// Properties
@@ -20,6 +19,26 @@ public class Grupo extends Contacto {
 		this.admin = admin;
 	}
 	
+	public Grupo(String nombre, List<Mensaje> mensajes, List<ContactoIndividual> contactos, Usuario admin) {
+		super(nombre, mensajes);
+		this.integrantes = contactos;
+		this.admin = admin;
+	}
+
+	
+	
+	public Usuario getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Usuario admin) {
+		this.admin = admin;
+	}
+
+	public List<ContactoIndividual> getIntegrantes() {
+		return integrantes;
+	}
+
 	public List<ContactoIndividual> getParticipantes() {
 		return integrantes;
 	}
@@ -28,7 +47,14 @@ public class Grupo extends Contacto {
 	public void setIntegrantes(List<ContactoIndividual> contactos) {
 		this.integrantes = contactos;
 	}
-
+	
+	public void addIntegrante(ContactoIndividual c) {
+		integrantes.add(c);
+	}
+	
+	public void cambiarAdmin(Usuario u) {
+		admin = u;
+	}
 
 	@Override
 	public List<Mensaje> getMensajesRecibidos(Optional<Usuario> emptyOpt) {
@@ -36,7 +62,8 @@ public class Grupo extends Contacto {
 				.filter(c -> c instanceof Grupo).map(c -> (Grupo) c).filter(g -> this.equals(g))
 				.flatMap(g -> g.getMensajesEnviados().stream()).collect(Collectors.toList());
 	}
-	
+
+
 	
 	
 }

@@ -6,9 +6,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+
 import java.awt.BorderLayout;
 import java.awt.Font;
 import controlador.AppChat;
+
 
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -41,6 +43,7 @@ public class ventanaLogin {
 	private JFrame frmAppchat;
 	private JFormattedTextField textField_usuario;
 	private JPasswordField passwordField;
+	private AppChat controlador;
 
 	/**
 	 * Launch the application.
@@ -62,8 +65,11 @@ public class ventanaLogin {
 	 * Create the application.
 	 */
 	public ventanaLogin() {
+
+		controlador = AppChat.getInstancia();
 		initialize();
-	}
+	}	
+	
 
 	/**
 	 * Initialize the contents of the frame.

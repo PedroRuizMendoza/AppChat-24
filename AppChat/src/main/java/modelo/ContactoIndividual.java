@@ -5,21 +5,19 @@ import java.util.List;
 import java.util.Optional;
 
 
-
-
 public class ContactoIndividual extends Contacto {
 
-	private String movil;
+	private int movil;
 	private Usuario usuario;
 
 	// Constructor.
-	public ContactoIndividual(String nombre, String movil, Usuario usuario) {
+	public ContactoIndividual(String nombre, int movil, Usuario usuario) {
 		super(nombre);
 		this.movil = movil;
 		this.usuario = usuario;
 	}
 
-	public ContactoIndividual(String nombre, LinkedList<Mensaje> mensajes, String movil, Usuario usuario) {
+	public ContactoIndividual(String nombre, LinkedList<Mensaje> mensajes, int movil, Usuario usuario) {
 		super(nombre, mensajes);
 		this.movil = movil;
 		this.usuario = usuario;
@@ -29,14 +27,17 @@ public class ContactoIndividual extends Contacto {
 
 	}
 
-	public String getMovil() {
+	public int getMovil() {
 		return movil;
 	}
 
 	public Usuario getUsuario() {
 		return usuario;
 	} 
-	
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
 
 	public ContactoIndividual getContacto(Usuario usuario) {
 		return this.usuario.getContactos().stream().filter(c -> c instanceof ContactoIndividual)

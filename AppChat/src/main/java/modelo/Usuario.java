@@ -2,11 +2,14 @@ package modelo;
 
 import java.time.LocalDate;
 import java.time.chrono.ChronoLocalDate;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.swing.ImageIcon;
 import com.toedter.calendar.JDateChooser;
+
 
 public class Usuario {
 	private static final double PRECIO_PREMIUM = 20.00;
@@ -16,16 +19,18 @@ public class Usuario {
 	private String nombre;
 	private String apellidos;
 	private String contraseña;
-	private String telefono;
+	private int telefono;
 	private String saludo;
 	private JDateChooser fecha;
-	private ImageIcon imagen;
+	private List<ImageIcon> imagen;
 	private List<Contacto> contactos;
 	private boolean premium = false;
 	private Optional<Descuento> descuento;
+	
 
-	public Usuario(String nombre, String apellidos, String contraseña, String telefono, String saludo,
-			JDateChooser fecha, ImageIcon imagen, List<Contacto> contactos) {
+	
+	public Usuario(String nombre, String apellidos, String contraseña, int telefono, String saludo,
+			JDateChooser fecha, List<ImageIcon> imagenes, List<Contacto> contactos) {
 		super();
 		this.nombre = nombre;
 		this.apellidos = apellidos;
@@ -33,7 +38,7 @@ public class Usuario {
 		this.telefono = telefono;
 		this.saludo = saludo;
 		this.fecha = fecha;
-		this.imagen = imagen;
+		this.imagen = imagenes;
 		this.contactos = contactos;
 
 		if (descuento == null) {
@@ -44,6 +49,9 @@ public class Usuario {
 		}
 	}
 
+	
+	
+	
 	public Usuario(String nombre) {
 		this.nombre = nombre;
 	}
@@ -76,11 +84,11 @@ public class Usuario {
 		this.contraseña = contraseña;
 	}
 
-	public String getTelefono() {
+	public int getTelefono() {
 		return telefono;
 	}
 
-	public void setTelefono(String telefono) {
+	public void setTelefono(int telefono) {
 		this.telefono = telefono;
 	}
 
@@ -100,13 +108,6 @@ public class Usuario {
 		this.fecha = fecha;
 	}
 
-	public ImageIcon getImagen() {
-		return imagen;
-	}
-
-	public void setImagen(ImageIcon imagen) {
-		this.imagen = imagen;
-	}
 
 	public List<Contacto> getContactos() {
 		return contactos;
@@ -128,6 +129,15 @@ public class Usuario {
 		premium = true;
 	}
 	
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+
+	public int addProfilePhoto(ImageIcon icon) {
+		imagen.add(icon);
+		return imagen.size();
+	}
 
 	public double getPrecio() {
 		if (descuento.isPresent()) {

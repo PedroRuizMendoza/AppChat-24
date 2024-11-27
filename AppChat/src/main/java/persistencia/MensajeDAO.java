@@ -6,6 +6,8 @@ public interface MensajeDAO {
 
 	void registrarMensaje(Mensaje mensaje);
 
+	Mensaje recuperarMensaje(int codigo);
+
 
 	
 	

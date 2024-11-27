@@ -32,16 +32,15 @@ public abstract class FactoriaDAO {
 	protected FactoriaDAO() {
 	}
 
-	/* Metodos factoria que devuelven adaptadores que implementen estos interfaces
-	public abstract GroupDAO getGrupoDAO();
+	//Metodos factoria que devuelven adaptadores que implementen estos interfaces
+	public abstract GrupoDao getGrupoDAO();
 
-	public abstract IndividualContactDAO getContactoIndividualDAO();
+	public abstract ContactoIndividualDAO getContactoIndividualDAO();
 
-	public abstract MessageDAO getMensajeDAO();
+	public abstract MensajeDAO getMensajeDAO();
 
-	public abstract StatusDAO getEstadoDAO();
 	
-	public abstract UserDAO getUserDAO();
-*/
+	public abstract UsuarioDAO getUserDAO();
+
 	
 }
