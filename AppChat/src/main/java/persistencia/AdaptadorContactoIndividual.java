@@ -88,7 +88,7 @@ public class AdaptadorContactoIndividual implements ContactoIndividualDAO{
 		 
 		String movil = servPersistencia.recuperarPropiedadEntidad(eContact, "movil");
 		
-		ContactoIndividual contact = new ContactoIndividual(nombre, new LinkedList<Mensaje>(), Integer.valueOf(movil), null);
+		ContactoIndividual contact = new ContactoIndividual(nombre, new LinkedList<Mensaje>(), movil, null);
 		contact.setCodigo(codigo);
 
 		// Metemos al contacto en el pool antes de llamar a otros adaptadores

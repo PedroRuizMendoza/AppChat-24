@@ -40,8 +40,8 @@ import java.awt.SystemColor;
 
 public class ventanaLogin {
 
-	private JFrame frmAppchat;
-	private JFormattedTextField textField_usuario;
+	JFrame ventanalogin;
+	private JFormattedTextField textField_telefono;
 	private JPasswordField passwordField;
 	private AppChat controlador;
 
@@ -53,7 +53,7 @@ public class ventanaLogin {
 			public void run() {
 				try {
 					ventanaLogin window = new ventanaLogin();
-					window.frmAppchat.setVisible(true);
+					window.ventanalogin.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace(); 
 				} 
@@ -70,46 +70,46 @@ public class ventanaLogin {
 		initialize();
 	}	
 	
+	private void login() {
+		// Comprobamos que el login haya sido satisfactorio
+		String telefono = textField_telefono.getText();
+		char[] password = passwordField.getPassword();
+
+		if (controlador.iniciarSesion(telefono, String.valueOf(password))) {
+			VentanaMain main = new VentanaMain();
+			main.setVisible(true);
+			ventanalogin.setVisible(false);
+		}
+		else {
+			 JOptionPane.showMessageDialog(ventanalogin, "Por favor ingrese un LOGIN valido.", "Error en Login", JOptionPane.ERROR_MESSAGE);	
+		}
+	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmAppchat = new JFrame();
-		frmAppchat.setTitle("AppChat");
-		frmAppchat.setForeground(SystemColor.info);
-		frmAppchat.setIconImage(Toolkit.getDefaultToolkit().getImage(ventanaLogin.class.getResource("/imagenes/comunicacion (1).png")));
-		frmAppchat.setBounds(100, 100, 632, 341);
-		frmAppchat.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmAppchat.setMinimumSize(new Dimension(600, 400));//Establece un tamaño mínimo para la ventana
+		ventanalogin = new JFrame();
+		ventanalogin.setTitle("AppChat");
+		ventanalogin.setForeground(SystemColor.info);
+		ventanalogin.setIconImage(Toolkit.getDefaultToolkit().getImage(ventanaLogin.class.getResource("/imagenes/comunicacion (1).png")));
+		ventanalogin.setBounds(100, 100, 632, 341);
+		ventanalogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		ventanalogin.setMinimumSize(new Dimension(600, 400));//Establece un tamaño mínimo para la ventana
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(SystemColor.info);
 		panel.setForeground(new Color(255, 255, 255));
-		frmAppchat.getContentPane().add(panel, BorderLayout.SOUTH);
+		ventanalogin.getContentPane().add(panel, BorderLayout.SOUTH);
 		
 		JButton botonLogin = new JButton("Login");
-		
 		botonLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				String telefono = textField_usuario.getText();
-				String contraseña = new String(passwordField.getPassword());
-				
-				boolean estaLogueado = AppChat.login(telefono,contraseña);
-				if(estaLogueado) {
-					VentanaMain main = new VentanaMain();
-					main.setVisible(true);
-					frmAppchat.setVisible(false);
-				}
-				else {
-					 JOptionPane.showMessageDialog(frmAppchat, "Por favor ingrese un LOGIN valido.", "Error en Login", JOptionPane.ERROR_MESSAGE);	
-				}
-				
-				
-				
+				login();
 			}
 		});
+		
+
 		botonLogin.setForeground(new Color(0, 0, 128));
 		botonLogin.setBackground(new Color(240, 255, 255));
 		botonLogin.setIcon(new ImageIcon(ventanaLogin.class.getResource("/imagenes/seguridad-movil.png")));
@@ -121,9 +121,12 @@ public class ventanaLogin {
 		botonRegistrar.setForeground(new Color(0, 0, 128));
 		botonRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Cierra la ventana login
+				ventanalogin.setVisible(false);
+				// Abre la nueva ventana
 				ventanaRegistro registro = new ventanaRegistro();
 				registro.setVisible(true);
-				frmAppchat.setVisible(false);
+				
 				
 			}
 		});
@@ -134,7 +137,7 @@ public class ventanaLogin {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(SystemColor.info);
 		panel_1.setForeground(SystemColor.activeCaption);
-		frmAppchat.getContentPane().add(panel_1, BorderLayout.CENTER);
+		ventanalogin.getContentPane().add(panel_1, BorderLayout.CENTER);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
 		gbl_panel_1.columnWidths = new int[]{209, 272, 130, 0};
 		gbl_panel_1.rowHeights = new int[]{50, 0, 0, 44, 0, 0, 46, 0};
@@ -171,14 +174,14 @@ public class ventanaLogin {
 		gbc_lblNewLabel_1.gridy = 4;
 		panel_1.add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
-		textField_usuario = new JFormattedTextField();
-		GridBagConstraints gbc_textField_usuario = new GridBagConstraints();
-		gbc_textField_usuario.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_usuario.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_usuario.gridx = 1;
-		gbc_textField_usuario.gridy = 4;
-		panel_1.add(textField_usuario, gbc_textField_usuario);
-		textField_usuario.setColumns(10);
+		textField_telefono = new JFormattedTextField();
+		GridBagConstraints gbc_textField_telefono = new GridBagConstraints();
+		gbc_textField_telefono.insets = new Insets(0, 0, 5, 5);
+		gbc_textField_telefono.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_telefono.gridx = 1;
+		gbc_textField_telefono.gridy = 4;
+		panel_1.add(textField_telefono, gbc_textField_telefono);
+		textField_telefono.setColumns(10);
 		
 		JLabel lblNewLabel_2 = new JLabel("Contraseña:");
 		lblNewLabel_2.setForeground(new Color(220, 20, 60));

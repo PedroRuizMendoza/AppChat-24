@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import controlador.AppChat;
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
 import persistencia.UsuarioDAO;
 
-
 public class CatalogoUsuario {
 	private Map<String, Usuario> usuarios;
-	private static CatalogoUsuario unicaInstancia = new CatalogoUsuario();
+	private static CatalogoUsuario unicaInstancia;
 
 	private FactoriaDAO dao;
 	private UsuarioDAO adaptadorUsuario;
@@ -32,9 +32,13 @@ public class CatalogoUsuario {
  
 	
 	public static CatalogoUsuario getUnicaInstancia() {
-		return unicaInstancia;
+        if (unicaInstancia == null)
+            unicaInstancia = new CatalogoUsuario();
+        return unicaInstancia;
 	}
-	
+	public Usuario getUsuario(int codigo) {
+		return usuarios.values().stream().filter(u -> u.getCodigo() == codigo).findAny().orElse(null);
+	}
 	// Devuelve todos los usuarios
 	public List<Usuario> getUsuarios() {
 		ArrayList<Usuario> lista = new ArrayList<Usuario>();
@@ -42,18 +46,15 @@ public class CatalogoUsuario {
 			lista.add(u);
 		return lista;
 	}
-	public Usuario getUsuario(int codigo) {
-		return usuarios.values().stream().filter(u -> u.getCodigo() == codigo).findAny().orElse(null);
+
+	public Optional<Usuario> getUsuarioNumTelf(String numTelefono) {
+	    return Optional.of(usuarios.values().stream()
+	                   .filter(u -> u.getTelefono().equals(numTelefono)) 
+	                   .findAny().orElse(null));
 	}
 
-	public Usuario getUsuario(String nick) {
-		return usuarios.get(nick);
-	}
-
-	public Optional<Usuario> getUsuarioNumTelf(int numTelefono) {
-		return usuarios.values().stream().filter(u -> u.getTelefono() == numTelefono).findAny();
-	}
-
+	
+	
 	public void addUsuario(Usuario user) {
 		usuarios.put(user.getNombre(), user);
 	}

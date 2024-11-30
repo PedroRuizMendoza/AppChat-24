@@ -1,14 +1,15 @@
 package modelo;
 
 import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDate;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import javax.swing.ImageIcon;
-import com.toedter.calendar.JDateChooser;
+
 
 
 public class Usuario {
@@ -19,18 +20,18 @@ public class Usuario {
 	private String nombre;
 	private String apellidos;
 	private String contraseña;
-	private int telefono;
+	private String telefono;
 	private String saludo;
-	private JDateChooser fecha;
+	private LocalDate fecha = FECHA_JOVEN;
 	private List<ImageIcon> imagen;
 	private List<Contacto> contactos;
 	private boolean premium = false;
 	private Optional<Descuento> descuento;
-	
+	 
 
 	
-	public Usuario(String nombre, String apellidos, String contraseña, int telefono, String saludo,
-			JDateChooser fecha, List<ImageIcon> imagenes, List<Contacto> contactos) {
+	public Usuario(String nombre, String apellidos, String contraseña, String telefono, String saludo,
+			LocalDate fecha, List<ImageIcon> imagenes, List<Contacto> contactos) {
 		super();
 		this.nombre = nombre;
 		this.apellidos = apellidos;
@@ -41,16 +42,15 @@ public class Usuario {
 		this.imagen = imagenes;
 		this.contactos = contactos;
 
-		if (descuento == null) {
-			// Si es joven descuento para jovenes
-			if (((ChronoLocalDate) fecha).isAfter(FECHA_JOVEN)) {
-				descuento = Optional.ofNullable(new DescuentoFecha());
-			}
-		}
-	}
 
-	
-	
+	}
+	public Usuario(ImageIcon icono, String nombre, LocalDate fecha, String numTelefono, String apellidos,
+			String password, String saludo) {
+		this(nombre, apellidos, password, numTelefono, saludo, fecha
+				,new LinkedList<>(Arrays.asList(icono))
+				,new LinkedList<>());
+				
+	}
 	
 	public Usuario(String nombre) {
 		this.nombre = nombre;
@@ -84,11 +84,11 @@ public class Usuario {
 		this.contraseña = contraseña;
 	}
 
-	public int getTelefono() {
+	public String getTelefono() {
 		return telefono;
 	}
 
-	public void setTelefono(int telefono) {
+	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
 
@@ -100,11 +100,15 @@ public class Usuario {
 		this.saludo = saludo;
 	}
 
-	public JDateChooser getFecha() {
+	public LocalDate getFecha() {
+		System.out.println(fecha);
+
+		if (fecha == null)
+			return LocalDate.now();
 		return fecha;
 	}
 
-	public void setFecha(JDateChooser fecha) {
+	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
 	}
 
@@ -153,5 +157,31 @@ public class Usuario {
 	public void addGrupo(Grupo g) {
 		contactos.add(g);
 	}
+	
+	
+	public boolean hasIndividualContact(String nomContacto) {
+		return contactos.stream().anyMatch(c -> c instanceof ContactoIndividual && c.getNombre().equals(nomContacto));
+	}
+	
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(telefono);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Usuario other = (Usuario) obj;
+		return Objects.equals(telefono, other.telefono);
+	}
 
+	
+
+	
+	
 }

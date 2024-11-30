@@ -12,4 +12,6 @@ public interface UsuarioDAO {
 
 	Usuario recuperarUsuario(int codigo);
 
+	void modificarUsuario(Usuario user);
+
 }

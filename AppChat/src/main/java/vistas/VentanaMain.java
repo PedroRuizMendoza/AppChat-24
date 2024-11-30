@@ -8,11 +8,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import controlador.AppChat;
 import modelo.Contacto;
 import modelo.ContactoIndividual;
 import modelo.Mensaje;
 import modelo.Usuario;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 
@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tds.BubbleText;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -40,12 +41,15 @@ import java.time.LocalDateTime;
 import java.awt.event.ActionEvent;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 
 public class VentanaMain extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel chatPanel;  // Panel para mostrar el chat
 	private JTextField textField;
+	private AppChat controlador;
+	private JList<Contacto> listaContactos;
 
 	/**
 	 * Launch the application.
@@ -67,6 +71,18 @@ public class VentanaMain extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaMain() {
+		setResizable(false);
+		controlador = AppChat.getInstancia();
+		
+		// Se extraen los contactos del usuario
+		List<Contacto> contactos = controlador.getContactosUsuarioActual();
+		// Creamos el modelo
+		final DefaultListModel<Contacto> modelContacts = new DefaultListModel<>();
+		// Rellenamos el modelo
+		//contactos.stream().forEach(c -> modelContacts.addElement(c));
+		listaContactos = new JList<>(modelContacts);
+		
+		
 		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaMain.class.getResource("/imagenes/comunicacion (1).png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -106,6 +122,16 @@ public class VentanaMain extends JFrame {
 		Panelbotonera.add(BotonBuscar);
 		
 		JButton btnNewButton_2 = new JButton("Contactos");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				registrarContacto window = new registrarContacto(modelContacts);
+				window.setSize(600,400);
+				window.setLocationRelativeTo(null);
+				window.setVisible(true);
+				
+			}
+		});
 		btnNewButton_2.setBackground(new Color(255, 255, 255));
 		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnNewButton_2.setIcon(new ImageIcon(VentanaMain.class.getResource("/imagenes/reunion.png")));
@@ -249,11 +275,12 @@ public class VentanaMain extends JFrame {
         chatPanel.revalidate();
         chatPanel.repaint();   	
 	}
-    
+     
     
     private void enviarMensaje(String texto) {
         // Crear una burbuja de texto para el mensaje enviado
-        BubbleText bubble = new BubbleText(chatPanel, texto, Color.green, "Yo", BubbleText.SENT,16);
+        BubbleText bubble = new BubbleText(chatPanel, texto, Color.green, "Yo", 
+        					BubbleText.SENT,16);
 
         // Añadir la burbuja de texto al panel del chat
         chatPanel.add(bubble);
@@ -262,5 +289,6 @@ public class VentanaMain extends JFrame {
         chatPanel.revalidate();
         chatPanel.repaint();
     }
-   
+    
+
 }

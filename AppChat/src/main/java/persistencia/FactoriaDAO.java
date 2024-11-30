@@ -6,7 +6,7 @@ public abstract class FactoriaDAO {
 	
 	private static FactoriaDAO unicaInstancia;
 
-	public static final String DAO_TDS = "umu.tds.apps.persistencia.TDSFactoriaDAO";
+	public static final String DAO_TDS = "persistencia.TDSFactoriaDAO";
 
 	/**
 	 * Crea un tipo de factoria DAO. Solo existe el tipo TDSFactoriaDAO
@@ -17,7 +17,8 @@ public abstract class FactoriaDAO {
 				unicaInstancia = (FactoriaDAO) Class.forName(tipo).newInstance();
 			} catch (Exception e) {
 				throw new DAOException(e.getMessage());
-			}
+	        }
+		
 		return unicaInstancia;
 	}
 
@@ -38,7 +39,6 @@ public abstract class FactoriaDAO {
 	public abstract ContactoIndividualDAO getContactoIndividualDAO();
 
 	public abstract MensajeDAO getMensajeDAO();
-
 	
 	public abstract UsuarioDAO getUserDAO();
 

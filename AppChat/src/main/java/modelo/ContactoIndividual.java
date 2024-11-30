@@ -7,17 +7,17 @@ import java.util.Optional;
 
 public class ContactoIndividual extends Contacto {
 
-	private int movil;
+	private String movil;
 	private Usuario usuario;
 
 	// Constructor.
-	public ContactoIndividual(String nombre, int movil, Usuario usuario) {
+	public ContactoIndividual(String nombre, String movil, Usuario usuario) {
 		super(nombre);
 		this.movil = movil;
 		this.usuario = usuario;
 	}
 
-	public ContactoIndividual(String nombre, LinkedList<Mensaje> mensajes, int movil, Usuario usuario) {
+	public ContactoIndividual(String nombre, LinkedList<Mensaje> mensajes, String movil, Usuario usuario) {
 		super(nombre, mensajes);
 		this.movil = movil;
 		this.usuario = usuario;
@@ -27,7 +27,7 @@ public class ContactoIndividual extends Contacto {
 
 	}
 
-	public int getMovil() {
+	public String getMovil() {
 		return movil;
 	}
 

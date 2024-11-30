@@ -1,5 +1,6 @@
 package vistas;
 
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -18,6 +19,10 @@ import javax.imageio.ImageIO;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -33,9 +38,15 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
+
+import controlador.AppChat;
+
+
 import java.awt.SystemColor;
 import javax.swing.DropMode;
 import javax.swing.SwingConstants;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class ventanaRegistro extends JFrame {
 
@@ -278,6 +289,8 @@ public class ventanaRegistro extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose(); // Cierra esta ventana
+				ventanaLogin window = new ventanaLogin();
+				window.ventanalogin.setVisible(true);
 				
 			}
 		});
@@ -292,12 +305,15 @@ public class ventanaRegistro extends JFrame {
 		btnNewButton_1 = new JButton("Aceptar");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {	
-			    String nombre = textField_Nombre.getText();
+			    
+				String nombre = textField_Nombre.getText();
 		        String apellidos = textField_Apellidos.getText();
 		        String telefono = textField_tlf.getText();
 		        String password1 = new String(passwordField.getPassword());
 		        String password2 = new String(passwordField_1.getPassword());
 		        String saludo = textArea_saludo.getText();
+		        LocalDate fecha = dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		        
 
 		        //Nombre y apellidos no deben estar vacíos y deben contener solo letras
 		        if (nombre.isEmpty() || !nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+")) {
@@ -327,14 +343,31 @@ public class ventanaRegistro extends JFrame {
 		            JOptionPane.showMessageDialog(contentPane, "Por favor, ingrese un Saludo.", "Error en Saludo", JOptionPane.ERROR_MESSAGE);
 		            return;
 		        }
+		        if(fecha == null) {
+		            JOptionPane.showMessageDialog(contentPane, "Por favor, ingrese una Fecha.", "Error en fecha", JOptionPane.ERROR_MESSAGE);
+		            return;
+		        }
 
 		        // Si todos los campos son válidos
 		        JOptionPane.showMessageDialog(contentPane, "Los datos son válidos.", "Validación Exitosa", JOptionPane.INFORMATION_MESSAGE);
+
 		        
-		        VentanaMain main = new VentanaMain();
-		        main.setVisible(true);
-		        contentPane.setVisible(false);
-				
+
+		     // Registra al usuario 
+				boolean creada = AppChat.getInstancia().crearCuenta((ImageIcon) (imagenMostrada.getIcon()),
+					nombre, apellidos ,password1, telefono, fecha, saludo);
+				if (!creada) {
+					// textFieldUser.setBackground(WRONG_INPUT_COLOR);
+		            JOptionPane.showMessageDialog(contentPane, "El Usuario ya existe en el sistema.", "Error en Crear usuario", JOptionPane.ERROR_MESSAGE);
+		            
+							
+				} else {
+					// Cierra la ventana actual
+					dispose(); // Cierra esta ventana
+					// Abre la nueva ventana
+					JFrame principalWindow = new VentanaMain();
+					principalWindow.setVisible(true);
+				}
 				
 			}
 		});
