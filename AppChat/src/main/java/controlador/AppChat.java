@@ -86,16 +86,16 @@ public class AppChat {
 
         System.out.println("Intentando iniciar sesión con teléfono: " + telefono);
 
-        // Obtener el usuario opcional desde el catálogo
-        Optional<Usuario> cliente = catalogoUsuarios.getUsuarioNumTelf(telefono);
+       
+        Usuario cliente = catalogoUsuarios.getUsuario(telefono);
 
-		if (cliente == null || cliente.get().getTelefono() == null) {
+		if (cliente == null || cliente.getTelefono() == null) {
 			System.out.println("sale por cliente == null " + telefono);
 			return false;
 		}
 		// Si la password esta bien inicia sesion
-		if (cliente.get().getContraseña().equals(contraseña)) {
-			usuarioActual = cliente.get();
+		if (cliente.getContraseña().equals(contraseña)) {
+			usuarioActual = cliente;
 			 System.out.println("Cuenta iniciada: " + telefono);
 			return true;
 		}
@@ -141,7 +141,7 @@ public class AppChat {
 
 				adaptadorUsuario.modificarUsuario(usuarioActual);
 				return nuevoContacto;
-			}
+			} 
 		}
 		return null;
 	}

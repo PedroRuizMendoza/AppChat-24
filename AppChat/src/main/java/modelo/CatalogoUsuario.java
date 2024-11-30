@@ -11,6 +11,7 @@ import persistencia.DAOException;
 import persistencia.FactoriaDAO;
 import persistencia.UsuarioDAO;
 
+
 public class CatalogoUsuario {
 	private Map<String, Usuario> usuarios;
 	private static CatalogoUsuario unicaInstancia;
@@ -39,6 +40,11 @@ public class CatalogoUsuario {
 	public Usuario getUsuario(int codigo) {
 		return usuarios.values().stream().filter(u -> u.getCodigo() == codigo).findAny().orElse(null);
 	}
+	
+	public Usuario getUsuario(String telefono) {
+		return usuarios.get(telefono);
+	}
+	
 	// Devuelve todos los usuarios
 	public List<Usuario> getUsuarios() {
 		ArrayList<Usuario> lista = new ArrayList<Usuario>();
@@ -46,7 +52,7 @@ public class CatalogoUsuario {
 			lista.add(u);
 		return lista;
 	}
-
+ 
 	public Optional<Usuario> getUsuarioNumTelf(String numTelefono) {
 	    return Optional.of(usuarios.values().stream()
 	                   .filter(u -> u.getTelefono().equals(numTelefono)) 
@@ -56,11 +62,11 @@ public class CatalogoUsuario {
 	
 	
 	public void addUsuario(Usuario user) {
-		usuarios.put(user.getNombre(), user);
+		usuarios.put(user.getTelefono(), user);
 	}
 
 	public void removeUsuario(Usuario user) {
-		usuarios.remove(user.getNombre());
+		usuarios.remove(user.getTelefono());
 	}
 	 
 	
