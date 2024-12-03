@@ -24,14 +24,14 @@ public class Usuario {
 	private String saludo;
 	private LocalDate fecha = FECHA_JOVEN;
 	private List<ImageIcon> imagen;
-	private List<Contacto> contactos;
+	private List<ContactoIndividual> contactos = new LinkedList<ContactoIndividual>() ;
 	private boolean premium = false;
 	private Optional<Descuento> descuento;
 	 
 
 	
 	public Usuario(String nombre, String apellidos, String contraseña, String telefono, String saludo,
-			LocalDate fecha, List<ImageIcon> imagenes, List<Contacto> contactos) {
+			LocalDate fecha, List<ImageIcon> imagenes, List<ContactoIndividual> contactos) {
 		super();
 		this.nombre = nombre;
 		this.apellidos = apellidos;
@@ -46,9 +46,7 @@ public class Usuario {
 	}
 	public Usuario(ImageIcon icono, String nombre, LocalDate fecha, String numTelefono, String apellidos,
 			String password, String saludo) {
-		this(nombre, apellidos, password, numTelefono, saludo, fecha
-				,new LinkedList<>(Arrays.asList(icono))
-				,new LinkedList<>());
+		this(nombre, apellidos, password, numTelefono, saludo, fecha, new LinkedList<>(Arrays.asList(icono)) ,new LinkedList<ContactoIndividual>());
 				
 	}
 	
@@ -113,11 +111,11 @@ public class Usuario {
 	}
 
 
-	public List<Contacto> getContactos() {
+	public List<ContactoIndividual> getContactos() {
 		return contactos;
 	}
 
-	public void setContactos(List<Contacto> contactos) {
+	public void setContactos(List<ContactoIndividual> contactos) {
 		this.contactos = contactos;
 	}
 
@@ -154,13 +152,13 @@ public class Usuario {
 		contactos.add(c);
 	}
 
-	public void addGrupo(Grupo g) {
-		contactos.add(g);
-	}
+	//public void addGrupo(Grupo g) {
+		//contactos.add(g);
+	//}
 	
 	
-	public boolean hasIndividualContact(String nomContacto) {
-		return contactos.stream().anyMatch(c -> c instanceof ContactoIndividual && c.getNombre().equals(nomContacto));
+	public boolean hasIndividualContact(String telefono) {
+		return contactos.stream().anyMatch(c -> c instanceof ContactoIndividual && c.getNombre().equals(telefono));
 	}
 	
 	

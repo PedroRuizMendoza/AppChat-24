@@ -79,28 +79,27 @@ public class AppChat {
     
     
     public boolean iniciarSesion(String telefono, String contraseña) {
-        if (telefono.isEmpty() || contraseña.isEmpty()) {
-            System.out.println("Teléfono o contraseña están vacíos.");
-            return false;
-        }
+    	 if (telefono.isEmpty() || contraseña.isEmpty())
+             return false;
 
-        System.out.println("Intentando iniciar sesión con teléfono: " + telefono);
+         /*
+          
+ Usuario cliente = repoUsuarios.getUsuario(telefono); if (cliente == null)
+ return false;*/
+     Optional<Usuario> clienteOpt = catalogoUsuarios.getUsuarioNumTelf(telefono);
+     if (clienteOpt.isEmpty()) {
+         System.out.println("Usuario no encontrado para el teléfono: " + telefono);
+         return false;}
 
-       
-        Usuario cliente = catalogoUsuarios.getUsuario(telefono);
+         Usuario cliente = clienteOpt.get();
 
-		if (cliente == null || cliente.getTelefono() == null) {
-			System.out.println("sale por cliente == null " + telefono);
-			return false;
-		}
-		// Si la password esta bien inicia sesion
-		if (cliente.getContraseña().equals(contraseña)) {
-			usuarioActual = cliente;
-			 System.out.println("Cuenta iniciada: " + telefono);
-			return true;
-		}
-		System.out.println("sale por  no cliente == null y tampco coinciden las contraseñas " + telefono);
-		return false;
+         // Si la password esta bien inicia sesion
+         if (cliente.getContraseña().equals(contraseña)) {
+             usuarioActual = cliente;
+
+             return true;
+         }
+         return false;
 	}
     
 
@@ -129,6 +128,7 @@ public class AppChat {
     
 }
 	public ContactoIndividual crearContacto(String nombre, String numTelefono) {
+	/*
 		// Si no tiene el contacto guardado lo guarda
 		if (!usuarioActual.hasIndividualContact(nombre)) {
 			Optional<Usuario> usuarioOpt = catalogoUsuarios.getUsuarioNumTelf(numTelefono);
@@ -144,11 +144,24 @@ public class AppChat {
 			} 
 		}
 		return null;
+		*/
+		Optional<Usuario> usuarioOpt = catalogoUsuarios.getUsuarioNumTelf(numTelefono);
+		if (usuarioOpt.isPresent()) {
+			ContactoIndividual nuevoContacto = new ContactoIndividual(nombre, numTelefono, usuarioOpt.get());
+			usuarioActual.addContacto(nuevoContacto);
+
+			adaptadorContactoIndividual.registrarContacto(nuevoContacto);
+
+			adaptadorUsuario.modificarUsuario(usuarioActual);
+			return nuevoContacto;
+		} 
+		return null;
+
 	}
 	
-	public List<Contacto> getContactosUsuarioActual() {
+	public List<ContactoIndividual> getContactosUsuarioActual() {
 		if (usuarioActual == null)
-			return new LinkedList<Contacto>();
+			return new LinkedList<ContactoIndividual>();
 		Usuario u = catalogoUsuarios.getUsuario(usuarioActual.getCodigo());
 		return u.getContactos();
 	}

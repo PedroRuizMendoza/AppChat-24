@@ -58,6 +58,8 @@ public class AdaptadorUsuario implements UsuarioDAO {
 			    new Propiedad("telefono", usuario.getTelefono()),
 			    new Propiedad("saludo", usuario.getSaludo()),
 			    new Propiedad("fecha", usuario.getFecha().toString()),
+			    new Propiedad("contactos", obtenerCodigosContactoIndividual(usuario.getContactos())),
+			    //new Propiedad("contactos", usuario.getContactos() ),
 			    new Propiedad("premium", String.valueOf(usuario.isPremium()))
 			)));
 
@@ -113,7 +115,7 @@ public class AdaptadorUsuario implements UsuarioDAO {
 
 
 		
-		/*			
+				
 // Contactos que el usuario tiene
 		List<ContactoIndividual> contactos = obtenerContactosDesdeCodigos(
 				servPersistencia.recuperarPropiedadEntidad(eUser, "contactos"));
@@ -121,6 +123,7 @@ public class AdaptadorUsuario implements UsuarioDAO {
 		for (ContactoIndividual c : contactos)
 			usuario.addContacto(c);
 		
+		/*			
 		// Grupos que el usuario tiene
 		List<Grupo> grupos = obtenerGruposDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eUser, "grupos"));
 
@@ -183,8 +186,8 @@ public class AdaptadorUsuario implements UsuarioDAO {
 		return usuarios;
 	}
 
-	private String obtenerCodigosContactoIndividual(List<Contacto> contactos) {
-		return contactos.stream().filter(c -> c instanceof ContactoIndividual) // me quedo con los contactos
+	private String obtenerCodigosContactoIndividual(List<ContactoIndividual> list) {
+		return list.stream().filter(c -> c instanceof ContactoIndividual) // me quedo con los contactos
 																				// individuales
 				.map(c -> String.valueOf(c.getCodigo())).reduce("", (l, c) -> l + c + " ") // concateno todos los
 																							// codigos
@@ -200,17 +203,26 @@ public class AdaptadorUsuario implements UsuarioDAO {
 		}
 		return grupos;
 	}
-/*
-	private List<ContactoIndividual> obtenerContactosDesdeCodigos(String codigos) {
-		List<ContactoIndividual> contactos = new LinkedList<>();
-		StringTokenizer strTok = new StringTokenizer(codigos, " ");
-		AdaptadorContactoIndividual adaptadorC = AdaptadorContactoIndividual.getInstancia();
-		while (strTok.hasMoreTokens()) {
-			contactos.add(adaptadorC.recuperarContacto(Integer.valueOf((String) strTok.nextElement())));
-		}
-		return contactos;
-	}*/
 
+	private List<ContactoIndividual> obtenerContactosDesdeCodigos(String codigos) {
+        List<ContactoIndividual> contactos = new LinkedList<>();
+
+        // Verificamos que codigos no sea null ni vacío
+        if (codigos == null || codigos.isEmpty()) {
+            return contactos; // Si es null o vacío, devolvemos una lista vacía
+        }
+
+        StringTokenizer strTok = new StringTokenizer(codigos, " ");
+        AdaptadorContactoIndividual adaptadorC = AdaptadorContactoIndividual.getInstancia();
+
+        while (strTok.hasMoreTokens()) {
+            String token = strTok.nextToken();
+            if (token != null && !token.trim().isEmpty()) {
+                contactos.add(adaptadorC.recuperarContacto(Integer.valueOf(token)));
+            }
+        }
+        return contactos;
+    }
 	private String obtenerPathImagenes(List<ImageIcon> imagenes) {
 		String paths = imagenes.stream().map(i -> String.valueOf(i.getDescription())).reduce("", (l, c) -> l + c + "?").trim();
 		return paths.substring(0, paths.length() - 1);

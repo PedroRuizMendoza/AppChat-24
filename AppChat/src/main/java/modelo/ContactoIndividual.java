@@ -54,9 +54,9 @@ public class ContactoIndividual extends Contacto {
 	}
 	
 	// Añade al contacto al grupo en cuestion
-	public void addGrupo(Grupo grupo) {
-		usuario.addGrupo(grupo);
-	}
+	//public void addGrupo(Grupo grupo) {
+	//	usuario.addGrupo(grupo);
+	//}
 	
 	
 }

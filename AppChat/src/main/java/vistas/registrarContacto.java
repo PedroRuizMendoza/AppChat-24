@@ -26,7 +26,7 @@ import java.awt.event.ActionEvent;
 public class registrarContacto extends JFrame {
 	private JTextField textField_Nombre;
 	private JTextField textField_Telefono;
-	private DefaultListModel<Contacto> modelContacts;
+	private DefaultListModel<ContactoIndividual> modelContacts;
 	
 	
 	
@@ -150,6 +150,7 @@ public class registrarContacto extends JFrame {
 			JOptionPane.showMessageDialog(registrarContacto.this, "Contact added successfully", "Info",
 					JOptionPane.INFORMATION_MESSAGE);
 		}
+		System.out.println("No se crea ningun contacto");
 	}
 
 	public void setMinimumSize(int i, int j) {

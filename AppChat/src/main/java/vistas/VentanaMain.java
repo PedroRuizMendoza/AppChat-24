@@ -75,7 +75,7 @@ public class VentanaMain extends JFrame {
 		controlador = AppChat.getInstancia();
 		
 		// Se extraen los contactos del usuario
-		List<Contacto> contactos = controlador.getContactosUsuarioActual();
+		List<ContactoIndividual> contactos = controlador.getContactosUsuarioActual();
 		// Creamos el modelo
 		final DefaultListModel<Contacto> modelContacts = new DefaultListModel<>();
 		// Rellenamos el modelo

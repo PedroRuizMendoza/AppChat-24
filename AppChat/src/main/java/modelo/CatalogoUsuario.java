@@ -52,14 +52,12 @@ public class CatalogoUsuario {
 			lista.add(u);
 		return lista;
 	}
- 
+
+
 	public Optional<Usuario> getUsuarioNumTelf(String numTelefono) {
-	    return Optional.of(usuarios.values().stream()
-	                   .filter(u -> u.getTelefono().equals(numTelefono)) 
-	                   .findAny().orElse(null));
+	    return usuarios.values().stream().filter(u -> u.getTelefono().equals(numTelefono)).findAny();
 	}
 
-	
 	
 	public void addUsuario(Usuario user) {
 		usuarios.put(user.getTelefono(), user);
