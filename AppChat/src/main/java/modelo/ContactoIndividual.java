@@ -52,6 +52,11 @@ public class ContactoIndividual extends Contacto {
 		} else
 			return new LinkedList<>();
 	}
+
+	public String getTelefono() {
+		// TODO Auto-generated method stub
+		return movil;
+	}
 	
 	// Añade al contacto al grupo en cuestion
 	//public void addGrupo(Grupo grupo) {

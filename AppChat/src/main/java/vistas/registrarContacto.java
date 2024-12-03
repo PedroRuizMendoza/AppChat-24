@@ -17,16 +17,20 @@ import modelo.ContactoIndividual;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+
+
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class registrarContacto extends JFrame {
 	private JTextField textField_Nombre;
 	private JTextField textField_Telefono;
-	private DefaultListModel<ContactoIndividual> modelContacts;
+	private DefaultListModel<ContactoIndividual> modelContacts = new DefaultListModel<>();
 	
 	
 	
@@ -131,11 +135,33 @@ public class registrarContacto extends JFrame {
 	
 	}
 
+	private boolean datosCorrectos() {
+		List<String> errores = new LinkedList<>();
+
+		if (textField_Nombre.getText().equals("")) {
+			errores.add("Name value is invalid");
+		}
+
+		if (textField_Telefono.getText().equals("") || Integer.parseInt(textField_Telefono.getText()) < 0) {
+			errores.add("Phone number value is invalid");
+		}
+
+		if (errores.size() > 0) {
+			String error = "";
+			for (String e : errores)
+				error += e + "\n";
+			JOptionPane.showMessageDialog(registrarContacto.this, error, "Error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;
+	}
 	/**
 	 * Comprueba errores y añade el contacto si está todo correcto
 	 */
 	private void addContact() {
 		// Comprobamos que los datos son correctos
+		if (!datosCorrectos())
+			return;
 
 		// Creamos el contacto
 		ContactoIndividual nuevoContacto = AppChat.getInstancia().crearContacto(textField_Nombre.getText(), textField_Telefono.getText());
@@ -147,10 +173,11 @@ public class registrarContacto extends JFrame {
 		} else {
 			// Usuario creado
 			modelContacts.add(modelContacts.size(), nuevoContacto);
+			System.out.println(nuevoContacto.getNombre());
+			System.out.println(nuevoContacto.getMovil());
 			JOptionPane.showMessageDialog(registrarContacto.this, "Contact added successfully", "Info",
 					JOptionPane.INFORMATION_MESSAGE);
 		}
-		System.out.println("No se crea ningun contacto");
 	}
 
 	public void setMinimumSize(int i, int j) {

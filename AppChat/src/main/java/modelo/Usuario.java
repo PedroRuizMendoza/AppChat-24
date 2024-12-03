@@ -1,6 +1,7 @@
 package modelo;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
@@ -24,7 +25,7 @@ public class Usuario {
 	private String saludo;
 	private LocalDate fecha = FECHA_JOVEN;
 	private List<ImageIcon> imagen;
-	private List<ContactoIndividual> contactos = new LinkedList<ContactoIndividual>() ;
+	private List<ContactoIndividual> contactos = new ArrayList<>();
 	private boolean premium = false;
 	private Optional<Descuento> descuento;
 	 
@@ -46,7 +47,7 @@ public class Usuario {
 	}
 	public Usuario(ImageIcon icono, String nombre, LocalDate fecha, String numTelefono, String apellidos,
 			String password, String saludo) {
-		this(nombre, apellidos, password, numTelefono, saludo, fecha, new LinkedList<>(Arrays.asList(icono)) ,new LinkedList<ContactoIndividual>());
+		this(nombre, apellidos, password, numTelefono, saludo, fecha, new LinkedList<>(Arrays.asList(icono)) ,new ArrayList<ContactoIndividual>());
 				
 	}
 	
