@@ -33,6 +33,7 @@ import java.util.List;
 import tds.BubbleText;
 
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
@@ -121,8 +122,8 @@ public class VentanaMain extends JFrame {
 		BotonBuscar.setIcon(new ImageIcon(VentanaMain.class.getResource("/imagenes/lupa.png")));
 		Panelbotonera.add(BotonBuscar);
 		
-		JButton btnNewButton_2 = new JButton("Contactos");
-		btnNewButton_2.addActionListener(new ActionListener() {
+		JButton boton_registrarContacto = new JButton("Añadir Contacto");
+		boton_registrarContacto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				registrarContacto window = new registrarContacto(modelContacts);
@@ -132,25 +133,26 @@ public class VentanaMain extends JFrame {
 				
 			}
 		});
-		btnNewButton_2.setBackground(new Color(255, 255, 255));
-		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btnNewButton_2.setIcon(new ImageIcon(VentanaMain.class.getResource("/imagenes/reunion.png")));
-		Panelbotonera.add(btnNewButton_2);
+		boton_registrarContacto.setBackground(new Color(255, 255, 255));
+		boton_registrarContacto.setFont(new Font("Tahoma", Font.BOLD, 13));
+		boton_registrarContacto.setIcon(new ImageIcon(VentanaMain.class.getResource("/imagenes/reunion.png")));
+		Panelbotonera.add(boton_registrarContacto);
 		
 		Component horizontalGlue = Box.createHorizontalGlue();
 		Panelbotonera.add(horizontalGlue);
 		
-		JButton btnNewButton_3 = new JButton("Premium");
-		btnNewButton_3.setBackground(new Color(255, 255, 255));
-		btnNewButton_3.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnNewButton_3.setIcon(new ImageIcon(VentanaMain.class.getResource("/imagenes/signo-de-dolar.png")));
-		Panelbotonera.add(btnNewButton_3);
+		JButton btnNewButton_Premium = new JButton("Premium");
+		btnNewButton_Premium.setBackground(new Color(255, 255, 255));
+		btnNewButton_Premium.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnNewButton_Premium.setIcon(new ImageIcon(VentanaMain.class.getResource("/imagenes/signo-de-dolar.png")));
+		Panelbotonera.add(btnNewButton_Premium);
 		
-		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setIcon(new ImageIcon(VentanaMain.class.getResource("/imagenes/gente (1).png")));
-		Panelbotonera.add(lblNewLabel_1);
+		JLabel lblNewLabel_1_Imagen = new JLabel("");
+		lblNewLabel_1_Imagen.setIcon(new ImageIcon(VentanaMain.class.getResource("/imagenes/gente (1).png")));
+		lblNewLabel_1_Imagen.setIcon(controlador.setImagen());
+		Panelbotonera.add(lblNewLabel_1_Imagen);
 		
-		JLabel lblNewLabel = new JLabel(" Usuario Actual");
+		JLabel lblNewLabel = new JLabel(controlador.getNombreUsuario());
 		lblNewLabel.setBackground(new Color(255, 255, 255));
 		lblNewLabel.setForeground(new Color(0, 0, 0));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -183,8 +185,8 @@ public class VentanaMain extends JFrame {
 
         // Configurar el panel de chat
         chatPanel = new JPanel();
-        chatPanel.setForeground(new Color(255, 255, 240));
-        chatPanel.setBackground(new Color(253, 254, 231));
+        chatPanel.setForeground(new Color(255, 255, 204));
+        chatPanel.setBackground(new Color(255, 255, 204));
         chatPanel.setLayout(new BoxLayout(chatPanel, BoxLayout.Y_AXIS));
         contentPane.add(chatPanel, BorderLayout.CENTER);
         

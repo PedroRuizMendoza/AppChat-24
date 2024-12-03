@@ -24,7 +24,7 @@ public class Usuario {
 	private String telefono;
 	private String saludo;
 	private LocalDate fecha = FECHA_JOVEN;
-	private List<ImageIcon> imagen;
+	private ImageIcon imagen;
 	private List<ContactoIndividual> contactos = new ArrayList<>();
 	private boolean premium = false;
 	private Optional<Descuento> descuento;
@@ -32,7 +32,7 @@ public class Usuario {
 
 	
 	public Usuario(String nombre, String apellidos, String contraseña, String telefono, String saludo,
-			LocalDate fecha, List<ImageIcon> imagenes, List<ContactoIndividual> contactos) {
+			LocalDate fecha, ImageIcon imagen, List<ContactoIndividual> contactos) {
 		super();
 		this.nombre = nombre;
 		this.apellidos = apellidos;
@@ -40,14 +40,14 @@ public class Usuario {
 		this.telefono = telefono;
 		this.saludo = saludo;
 		this.fecha = fecha;
-		this.imagen = imagenes;
+		this.imagen = imagen;
 		this.contactos = contactos;
 
 
 	}
 	public Usuario(ImageIcon icono, String nombre, LocalDate fecha, String numTelefono, String apellidos,
 			String password, String saludo) {
-		this(nombre, apellidos, password, numTelefono, saludo, fecha, new LinkedList<>(Arrays.asList(icono)) ,new ArrayList<ContactoIndividual>());
+		this(nombre, apellidos, password, numTelefono, saludo, fecha, icono ,new ArrayList<ContactoIndividual>());
 				
 	}
 	
@@ -137,10 +137,13 @@ public class Usuario {
 		this.codigo = codigo;
 	}
 
-	public int addProfilePhoto(ImageIcon icon) {
-		imagen.add(icon);
-		return imagen.size();
+
+	public ImageIcon getProfilePhoto() {
+		return imagen;
 	}
+
+	
+
 
 	public double getPrecio() {
 		if (descuento.isPresent()) {

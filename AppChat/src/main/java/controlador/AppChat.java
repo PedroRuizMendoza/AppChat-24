@@ -141,7 +141,17 @@ public class AppChat {
 		return null;
 
 	}
-
+	
+	
+	
+	public ImageIcon setImagen() {
+		return usuarioActual.getProfilePhoto();
+	}
+ 
+	public String getNombreUsuario() {
+		return usuarioActual.getNombre();
+	}
+	
 	public List<ContactoIndividual> getContactosUsuarioActual() {
 		if (usuarioActual == null)
 			return new LinkedList<ContactoIndividual>();

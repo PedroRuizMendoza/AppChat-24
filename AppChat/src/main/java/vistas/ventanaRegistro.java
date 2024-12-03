@@ -13,6 +13,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -395,7 +396,9 @@ public class ventanaRegistro extends JFrame {
 					BufferedImage image = ImageIO.read(url);
 					Image resizedImage = image.getScaledInstance(128, 128, Image.SCALE_SMOOTH); // Reescalar la imagen
 					ImageIcon icono = new ImageIcon(resizedImage);
+					icono.setDescription(path);
 		            imagenMostrada.setIcon(icono); //Mostrar la nueva imagen donde estaba la anterior
+		            
 				} catch (IOException e1) {
 		            // Muestra un mensaje de error si hay un problema al cargar la imagen
 		            JOptionPane.showMessageDialog(contentPane, "No se pudo cargar la imagen desde la URL proporcionada.\n Compruebe su conexion a internet", "Error de Carga", JOptionPane.WARNING_MESSAGE);
@@ -403,7 +406,7 @@ public class ventanaRegistro extends JFrame {
 
 				
 
-			}
+			} 
 		});
 		
 		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 14));
