@@ -57,6 +57,13 @@ public class ContactoIndividual extends Contacto {
 		// TODO Auto-generated method stub
 		return movil;
 	}
+
+	@Override
+	public String toString() {
+		return  "Nombre: " + usuario.getNombre() + " - Tlf: " + movil;
+	}
+	
+	
 	
 	// Añade al contacto al grupo en cuestion
 	//public void addGrupo(Grupo grupo) {

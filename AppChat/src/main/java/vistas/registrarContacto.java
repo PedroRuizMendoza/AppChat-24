@@ -31,10 +31,11 @@ public class registrarContacto extends JFrame {
 	private JTextField textField_Nombre;
 	private JTextField textField_Telefono;
 	private DefaultListModel<ContactoIndividual> modelContacts = new DefaultListModel<>();
-	
-	
+	private ContactoListener contactoListener;
+
 	
 	public registrarContacto(DefaultListModel<Contacto> modelo) {
+
 		setResizable(false);
 		
 		getContentPane().setBackground(new Color(254, 254, 207));
@@ -111,6 +112,8 @@ public class registrarContacto extends JFrame {
 		btnNewButton_Aceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				addContact();
+				setVisible(false);
+				
 			}
 		});
 		btnNewButton_Aceptar.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -124,6 +127,7 @@ public class registrarContacto extends JFrame {
 		btnNewButton_cancelar.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnNewButton_cancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				setVisible(false);			
 			}
 		});
 		GridBagConstraints gbc_btnNewButton_cancelar = new GridBagConstraints();
@@ -177,6 +181,8 @@ public class registrarContacto extends JFrame {
 			System.out.println(nuevoContacto.getMovil());
 			JOptionPane.showMessageDialog(registrarContacto.this, "Contact added successfully", "Info",
 					JOptionPane.INFORMATION_MESSAGE);
+			setVisible(false);
+
 		}
 	}
 

@@ -61,22 +61,8 @@ public class CatalogoUsuario {
 	
 	public Optional<Usuario> getUsuarioNumTelf(String numTelefono) {
 	    return usuarios.values().stream()
-	        .filter(u -> u.getTelefono().equals(numTelefono))
-	        .peek(this::inicializarCamposSiEsNecesario)
-	        .findAny();
+	        .filter(u -> u.getTelefono().equals(numTelefono)).findAny();
 	}
-
-	private void inicializarCamposSiEsNecesario(Usuario usuario) {
-	    if (usuario.getContactos() == null) { //campo contactos
-	        usuario.setContactos(new ArrayList<>()); // Inicializa como lista vacía.
-	    }
-	    // Añade otras inicializaciones necesarias para los campos del usuario.
-	}
-	
-	
-	
-	
-	
 	
 	public void addUsuario(Usuario user) {
 		usuarios.put(user.getTelefono(), user);

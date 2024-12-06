@@ -6,22 +6,18 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 
 import beans.Entidad;
 import beans.Propiedad;
-import modelo.Contacto;
 import modelo.ContactoIndividual;
 import modelo.Grupo;
 import modelo.Usuario;
@@ -56,9 +52,12 @@ public class AdaptadorUsuario implements UsuarioDAO {
 		eUsuario = new Entidad();
 
 		eUsuario.setNombre("usuario");
-		eUsuario.setPropiedades(new ArrayList<>(Arrays.asList(new Propiedad("nombre", usuario.getNombre()),
-				new Propiedad("apellidos", usuario.getApellidos()), new Propiedad("password", usuario.getContraseña()),
-				new Propiedad("telefono", usuario.getTelefono()), new Propiedad("saludo", usuario.getSaludo()),
+		eUsuario.setPropiedades(new ArrayList<>(Arrays.asList(
+				new Propiedad("nombre", usuario.getNombre()),
+				new Propiedad("apellidos", usuario.getApellidos()), 
+				new Propiedad("password", usuario.getContraseña()),
+				new Propiedad("telefono", usuario.getTelefono()), 
+				new Propiedad("saludo", usuario.getSaludo()),
 				new Propiedad("fecha", usuario.getFecha().toString()),
 				new Propiedad("contactos", obtenerCodigosContactoIndividual(usuario.getContactos())),
 				new Propiedad("imagen", obtenerPathImagen(usuario.getProfilePhoto())),
@@ -81,10 +80,9 @@ public class AdaptadorUsuario implements UsuarioDAO {
 		System.out.println(servPersistencia.recuperarPropiedadEntidad(eUser, "nombre"));
 		System.out.println(servPersistencia.recuperarPropiedadEntidad(eUser, "apellidos"));
 		System.out.println(servPersistencia.recuperarPropiedadEntidad(eUser, "telefono"));
-		System.out.println(servPersistencia.recuperarPropiedadEntidad(eUser, "saludo"));
-		System.out.println(servPersistencia.recuperarPropiedadEntidad(eUser, "codigo"));
 		System.out.println(servPersistencia.recuperarPropiedadEntidad(eUser, "fecha"));
 		System.out.println(servPersistencia.recuperarPropiedadEntidad(eUser, "imagen"));
+		System.out.println(servPersistencia.recuperarPropiedadEntidad(eUser, "contactos"));
 
 		// recuperar propiedades que no son objetos
 		// fecha
@@ -94,8 +92,6 @@ public class AdaptadorUsuario implements UsuarioDAO {
 		String password = servPersistencia.recuperarPropiedadEntidad(eUser, "password");
 		String telefono = servPersistencia.recuperarPropiedadEntidad(eUser, "telefono");
 		String saludo = servPersistencia.recuperarPropiedadEntidad(eUser, "saludo");
-
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		LocalDate fecha = LocalDate.parse(servPersistencia.recuperarPropiedadEntidad(eUser, "fecha"));
 		Boolean premium = Boolean.valueOf(servPersistencia.recuperarPropiedadEntidad(eUser, "premium"));
 		String pathImages = servPersistencia.recuperarPropiedadEntidad(eUser, "imagen");
@@ -110,12 +106,13 @@ public class AdaptadorUsuario implements UsuarioDAO {
 		PoolDAO.getInstancia().addObjeto(codigo, usuario);
 
 // Contactos que el usuario tiene
-		List<ContactoIndividual> contactos = obtenerContactosDesdeCodigos(
-				servPersistencia.recuperarPropiedadEntidad(eUser, "contactos"));
+		List<ContactoIndividual> contactos = obtenerContactosDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eUser, "contactos"));
+		System.out.println("Añadiendo Contactos a usuario:");
+		for (ContactoIndividual c : contactos) {
+			System.out.println(c);
 
-		for (ContactoIndividual c : contactos)
 			usuario.addContacto(c);
-
+		}
 		/*
 		 * // Grupos que el usuario tiene List<Grupo> grupos =
 		 * obtenerGruposDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eUser,
@@ -126,14 +123,40 @@ public class AdaptadorUsuario implements UsuarioDAO {
 		// devolver el objeto usuario con todo
 		return usuario;
 	}
+	public void modificarUsuario(Usuario usuario) {
+		Entidad eUsuario = servPersistencia.recuperarEntidad(usuario.getCodigo());
 
+		for (Propiedad prop : eUsuario.getPropiedades()) {
+			if (prop.getNombre().equals("codigo")) {
+				prop.setValor(String.valueOf(usuario.getCodigo()));
+			} else if (prop.getNombre().equals("nombre")) {
+				prop.setValor(usuario.getNombre());
+			} else if (prop.getNombre().equals("password")) {
+				prop.setValor(usuario.getContraseña());
+			} else if (prop.getNombre().equals("fecha")) {
+				prop.setValor((usuario.getFecha().toString()));
+			} else if (prop.getNombre().equals("telefono")) {
+				prop.setValor(String.valueOf(usuario.getTelefono()));
+			} else if (prop.getNombre().equals("saludo")) {
+				prop.setValor(usuario.getSaludo());
+			} else if (prop.getNombre().equals("imagen")) {
+				prop.setValor(obtenerPathImagen(usuario.getProfilePhoto()));
+			} else if(prop.getNombre().equals("contactos")) {
+				prop.setValor(obtenerCodigosContactoIndividual(usuario.getContactos()));
+			}
+			servPersistencia.modificarPropiedad(prop);
+		}
+	}
+	/*
 	@Override
 	public void modificarUsuario(Usuario user) {
 		Entidad eUser = servPersistencia.recuperarEntidad(user.getCodigo());
+		
+
 
 		// Se da el cambiazo a las propiedades del usuario
 		servPersistencia.eliminarPropiedadEntidad(eUser, "nombre");
-		servPersistencia.anadirPropiedadEntidad(eUser, "nombre", user.getNombre());
+		servPersistencia.anadirPropiedadEntidad(eUser, "nombre", user.getNombre());		
 		servPersistencia.eliminarPropiedadEntidad(eUser, "fecha");
 		servPersistencia.anadirPropiedadEntidad(eUser, "fecha", user.getFecha().toString());
 		servPersistencia.eliminarPropiedadEntidad(eUser, "telefono");
@@ -142,9 +165,9 @@ public class AdaptadorUsuario implements UsuarioDAO {
 		servPersistencia.anadirPropiedadEntidad(eUser, "apellidos", user.getApellidos());
 		servPersistencia.eliminarPropiedadEntidad(eUser, "password");
 		servPersistencia.anadirPropiedadEntidad(eUser, "password", user.getContraseña());
-		// servPersistencia.eliminarPropiedadEntidad(eUser, "imagenes");
-		// servPersistencia.anadirPropiedadEntidad(eUser, "imagenes",
-		// obtenerPathImagenes(user.getProfilePhotos()));
+		servPersistencia.eliminarPropiedadEntidad(eUser, "imagenes");
+		servPersistencia.anadirPropiedadEntidad(eUser, "imagenes",
+		obtenerPathImagen(user.getProfilePhoto()));
 		servPersistencia.eliminarPropiedadEntidad(eUser, "premium");
 		servPersistencia.anadirPropiedadEntidad(eUser, "premium", String.valueOf(user.isPremium()));
 
@@ -156,8 +179,9 @@ public class AdaptadorUsuario implements UsuarioDAO {
 		// obtenerCodigosGrupo(user.getContactos()));
 		servPersistencia.eliminarPropiedadEntidad(eUser, "saludo");
 		servPersistencia.anadirPropiedadEntidad(eUser, "saludo", user.getSaludo());
+		
 	}
-
+*/
 	@Override
 	public List<Usuario> recuperarTodosUsuarios() {
 		List<Usuario> usuarios = new LinkedList<>();

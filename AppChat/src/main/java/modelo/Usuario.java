@@ -25,7 +25,7 @@ public class Usuario {
 	private String saludo;
 	private LocalDate fecha = FECHA_JOVEN;
 	private ImageIcon imagen;
-	private List<ContactoIndividual> contactos = new ArrayList<>();
+	private List<ContactoIndividual> contactos;
 	private boolean premium = false;
 	private Optional<Descuento> descuento;
 	 
@@ -47,7 +47,7 @@ public class Usuario {
 	}
 	public Usuario(ImageIcon icono, String nombre, LocalDate fecha, String numTelefono, String apellidos,
 			String password, String saludo) {
-		this(nombre, apellidos, password, numTelefono, saludo, fecha, icono ,new ArrayList<ContactoIndividual>());
+		this(nombre, apellidos, password, numTelefono, saludo, fecha, icono ,new LinkedList<ContactoIndividual>());
 				
 	}
 	

@@ -8,15 +8,11 @@ import java.util.StringTokenizer;
 
 import beans.Entidad;
 import beans.Propiedad;
-import modelo.Contacto;
 import modelo.ContactoIndividual;
 import modelo.Mensaje;
 import modelo.Usuario;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
-
-
-
 
 
 public class AdaptadorContactoIndividual implements ContactoIndividualDAO{
@@ -36,28 +32,24 @@ public class AdaptadorContactoIndividual implements ContactoIndividualDAO{
 	
 	@Override
 	public void registrarContacto(ContactoIndividual contacto) {
-		Entidad eContact = new Entidad();
-		boolean existe = true;
+		Entidad eContact = null;
 
-		// Si la entidad está registrada no la registra de nuevo
-		try {
-			eContact = servPersistencia.recuperarEntidad(contacto.getCodigo());
-		} catch (NullPointerException e) {
-			existe = false;
-		}
-		if (existe)
+		eContact = servPersistencia.recuperarEntidad(contacto.getCodigo());
+		if (eContact != null)
 			return;
 
 		// Registramos primero los atributos que son objetos
 		// Registrar los mensajes del contacto
 		registrarSiNoExistenMensajes(contacto.getMensajesEnviados());
-
+ 
 		// Registramos al usuario correspondiente al contacto si no existe.
 		registrarSiNoExisteUser(contacto.getUsuario());
 
 		// Atributos propios del contacto
+		eContact = new Entidad();
 		eContact.setNombre("contacto");
-		eContact.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(new Propiedad("nombre", contacto.getNombre()),
+		eContact.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(
+				new Propiedad("nombre", contacto.getNombre()),
 				new Propiedad("movil", String.valueOf(contacto.getMovil())),
 				new Propiedad("mensajesRecibidos", obtenerCodigosMensajesRecibidos(contacto.getMensajesEnviados())),
 				new Propiedad("usuario", String.valueOf(contacto.getUsuario().getCodigo())))));
@@ -110,6 +102,8 @@ public class AdaptadorContactoIndividual implements ContactoIndividualDAO{
 	//-------------------- Funciones auxiliares.---------------------------------
 	
 		private void registrarSiNoExistenMensajes(List<Mensaje> messages) {
+			if(messages == null)
+				return;
 			AdaptadorMensaje adaptadorMensajes = AdaptadorMensaje.getInstancia();
 			messages.stream().forEach(m -> adaptadorMensajes.registrarMensaje(m));
 		}
@@ -120,14 +114,22 @@ public class AdaptadorContactoIndividual implements ContactoIndividualDAO{
 		}
 
 		private String obtenerCodigosMensajesRecibidos(List<Mensaje> mensajesRecibidos) {
+			if(mensajesRecibidos == null) 
+				return null;
 			return mensajesRecibidos.stream().map(m -> String.valueOf(m.getCodigo())).reduce("", (l, m) -> l + m + " ")
 					.trim();
 		}
-
+ 
 
 	
 		private List<Mensaje> obtenerMensajesDesdeCodigos(String codigos) {
 			List<Mensaje> mensajes = new LinkedList<>();
+			
+			// Verificamos que codigos no sea null ni vacío
+			if (codigos == null || codigos.isEmpty()) {
+				return mensajes; // Si es null o vacío, devolvemos una lista vacía
+			}
+			
 			StringTokenizer strTok = new StringTokenizer(codigos, " ");
 			AdaptadorMensaje adaptadorMensajes = AdaptadorMensaje.getInstancia();
 			while (strTok.hasMoreTokens()) {

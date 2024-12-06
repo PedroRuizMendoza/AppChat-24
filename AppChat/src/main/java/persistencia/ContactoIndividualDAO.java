@@ -10,4 +10,6 @@ public interface ContactoIndividualDAO {
 
 	ContactoIndividual recuperarContacto(int codigo);
 
+
+
 }

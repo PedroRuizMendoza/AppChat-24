@@ -133,8 +133,8 @@ public class AppChat {
 				usuarioActual.addContacto(nuevoContacto);
 
 				adaptadorContactoIndividual.registrarContacto(nuevoContacto);
-
 				adaptadorUsuario.modificarUsuario(usuarioActual);
+				
 				return nuevoContacto;
 			}
 		}
