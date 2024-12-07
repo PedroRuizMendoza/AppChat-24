@@ -46,14 +46,14 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 
-public class VentanaMain extends JFrame{
+public class VentanaMain extends JFrame implements ContactoListener{
 
 	private JPanel contentPane;
 	private JPanel chatPanel; // Panel para mostrar el chat
 	private JTextField textField;
 	private AppChat controlador;
 	private JList<Contacto> listaContactos;
-
+	JComboBox comboBox = new JComboBox();
 	/**
 	 * Launch the application.
 	 */
@@ -103,7 +103,7 @@ public class VentanaMain extends JFrame{
 		contentPane.add(Panelbotonera, BorderLayout.NORTH);
 		Panelbotonera.setLayout(new BoxLayout(Panelbotonera, BoxLayout.X_AXIS));
 
-		JComboBox comboBox = new JComboBox();
+		
 		comboBox.setForeground(new Color(0, 0, 0));
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		contactos.stream().forEach(t -> comboBox.addItem(t));
@@ -127,7 +127,7 @@ public class VentanaMain extends JFrame{
 		boton_registrarContacto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				registrarContacto window = new registrarContacto(modelContacts);
+				registrarContacto window = new registrarContacto(modelContacts, VentanaMain.this);
 				window.setSize(600, 400);
 				window.setLocationRelativeTo(null);
 				window.setVisible(true);
@@ -259,12 +259,21 @@ public class VentanaMain extends JFrame{
 	}
 	
     public void editarComboBox(Contacto nuevoContacto, JComboBox comboBox){
+    	
     	List<ContactoIndividual> contactos = controlador.getContactosUsuarioActual(); 
+    	
     	contactos.stream().filter(contacto ->  IntStream.range(0, comboBox.getItemCount())
     			.mapToObj(comboBox::getItemAt) .noneMatch(existing -> existing.equals(contacto)))
     			.forEach(comboBox::addItem);
+    	
     }
     
+    // Método del Listener que actualiza el ComboBox
+    @Override
+    public void onContactoRegistrado(Contacto nuevoContacto) {
+    	System.out.println("Entra en el onContactoRegistrado");
+    	editarComboBox(nuevoContacto, comboBox);
+    }    
 
 
 
@@ -296,4 +305,9 @@ public class VentanaMain extends JFrame{
 		chatPanel.repaint();
 	}
 
+	
+
+    
+
+    
 }

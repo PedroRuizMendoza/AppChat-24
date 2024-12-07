@@ -32,10 +32,11 @@ public class registrarContacto extends JFrame {
 	private JTextField textField_Telefono;
 	private DefaultListModel<ContactoIndividual> modelContacts = new DefaultListModel<>();
 	private ContactoListener contactoListener;
+	
 
 	
-	public registrarContacto(DefaultListModel<Contacto> modelo) {
-
+	public registrarContacto(DefaultListModel<Contacto> modelo, ContactoListener listener) {
+		 this.contactoListener = listener;
 		setResizable(false);
 		
 		getContentPane().setBackground(new Color(254, 254, 207));
@@ -181,6 +182,10 @@ public class registrarContacto extends JFrame {
 			System.out.println(nuevoContacto.getMovil());
 			JOptionPane.showMessageDialog(registrarContacto.this, "Contact added successfully", "Info",
 					JOptionPane.INFORMATION_MESSAGE);
+	        // Notificar al Listener
+	        if (contactoListener != null) {
+	            contactoListener.onContactoRegistrado(nuevoContacto);
+	        }
 			setVisible(false);
 
 		}

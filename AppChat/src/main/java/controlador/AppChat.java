@@ -81,7 +81,6 @@ public class AppChat {
 
 		Optional<Usuario> clienteOpt = catalogoUsuarios.getUsuarioNumTelf(telefono);
 		
-		System.out.println(clienteOpt.get());
 		if (clienteOpt.isEmpty()) {
 			System.out.println("Usuario no encontrado para el teléfono: " + telefono);
 			return false;
